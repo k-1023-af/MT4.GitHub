@@ -6,6 +6,7 @@
 class Function {
 };
 
+const float halfPi = std::numbers::pi_v<float> / 2.0f;
 
 struct Vector3 {
 	float x;
@@ -28,5 +29,90 @@ struct Spherical {
 	float phi;
 };
 
+struct Matrix4x4 {
+	float m[4][4];
+};
+
+struct Segment {
+	Vector3 origin;
+	Vector3 diff;
+};
+
+struct Capsule {
+	Segment segment;
+	float radius;
+};
+
+struct Sphere {
+	Vector3 center;
+	float radius;
+};
+
+struct Plane {
+	Vector3 normal;
+	float distance;
+};
+
+struct Triangle {
+	Vector3 vertices[3];
+};
+
+struct AABB {
+	Vector3 min;
+	Vector3 max;
+
+	void Fix() {
+		if (min.x > max.x)
+			std::swap(min.x, max.x);
+		if (min.y > max.y)
+			std::swap(min.y, max.y);
+		if (min.z > max.z)
+			std::swap(min.z, max.z);
+	}
+};
+
+struct Spring {
+	Vector3 anchor;
+	float naturalLength;
+	float stiffness;
+	float dampingCoefficient;
+};
+
+struct Ball {
+	Vector3 position;
+	Vector3 velocity;
+	Vector3 acceleration;
+	float mass;
+	float radius;
+	unsigned int color;
+};
+
+struct Pendulum {
+	Vector3 anchor;
+	float length;
+	float angle;
+	float angularVelocity;
+	float angularAcceleration;
+};
+
+struct ConicalPendulum {
+	Vector3 anchor;
+	float length;
+	float halfApexAngle;
+	float angle;
+	float angularVelocity;
+};
+
+float Dot(const Vector3& v1, const Vector3& v2);
+
+Vector3 AddVector3(const Vector3& v1, const Vector3& v2);
+Vector3 Multiply(const Vector3& v, float scalar);
+
 Vector3 ToCartesian(const Spherical& s);
+
+Vector3 Cross(const Vector3& v1, const Vector3& v2);
+
+Vector3 Normalize(const Vector3& v);
+
 Spherical ToSpherical(const Vector3& p);
+
