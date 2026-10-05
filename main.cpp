@@ -2,9 +2,6 @@
 #include "Function.h"
 #include "ImGui.h"
 
-float phi = 0.0f;
-float theta = 0.0f;
-
 
 const char kWindowTitle[] = "LE2C_25_ファルコン_エブラハム";
 
@@ -76,8 +73,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		ImGui::Begin("Spherical Coordinates");
 		ImGui::Text("Target: (0, 0, 0) / +Y up / Camera +Z forward");
 		ImGui::InputFloat("Radius", &s.radius, 0.01f);
-		ImGui::InputFloat("Theta: (azimuth rad)", &s.theta, 0.01f);
-		ImGui::InputFloat("Phi (elevation rad)", &s.phi, 0.01f);
+		ImGui::InputFloat("Theta: (elevation rad)", &s.theta, 0.01f);
+		ImGui::InputFloat("Phi (azimuth rad)", &s.phi, 0.01f);
 		//if (ImGui::Button("Reset Camera Transformation")) {
 		//	cameraTranslate = {0.0f, 1.9f, -6.49f};
 		//	cameraRotate = {0.26f, 0.0f, 0.0f};
