@@ -6,7 +6,14 @@
 class Function {
 };
 
+const float deltaTime = 1.0f / 60.0f;
+
 const float halfPi = std::numbers::pi_v<float> / 2.0f;
+
+struct Vector2 {
+	float x;
+	float y;
+};
 
 struct Vector3 {
 	float x;
@@ -104,6 +111,8 @@ struct ConicalPendulum {
 };
 
 float Dot(const Vector3& v1, const Vector3& v2);
+
+float Vector2Length(Vector2 v1, Vector2 v2);
 
 Vector3 AddVector3(const Vector3& v1, const Vector3& v2);
 Vector3 Multiply(const Vector3& v, float scalar);

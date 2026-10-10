@@ -6,6 +6,10 @@ float Dot(const Vector3& v1, const Vector3& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; 
 }
 
+float Vector2Length(Vector2 v1, Vector2 v2) { 
+	return sqrtf(powf(((float)v2.x - (float)v1.x), 2) + powf(((float)v2.y - (float)v1.y), 2));
+}
+
 Vector3 AddVector3(const Vector3& v1, const Vector3& v2) { 
 	return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
 }
