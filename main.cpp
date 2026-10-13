@@ -61,7 +61,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		
 		ImGui::Begin("Interpolation Controller");
 		ImGui::Text("Target: Mouse Position (Red Circle)");
-		ImGui::DragFloat("Speed", &speed, 0.1f);
+		ImGui::SliderFloat("Speed", &speed, 0.0f, 10.0f);
 
 		ImGui::Text("Mouse Pos: (%03f, %03f)", &mousePosX, &mousePosY);
 		ImGui::Text("Circle Pos: (%03f, %03f)", &circleBPos.x);
