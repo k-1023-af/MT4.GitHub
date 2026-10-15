@@ -2,6 +2,7 @@
 #include <numbers>
 #include <cmath>
 #include <algorithm>
+//#include <math.h>
 
 class Function {
 };
@@ -28,6 +29,13 @@ struct Vector3 {
 	Vector3& operator-=(const Vector3& v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
 	Vector3& operator*=(float s) { x *= s; y *= s; z *= s; return *this; }
 	Vector3& operator/=(float s) { x /= s; y /= s; z /= s; return *this; }
+};
+
+struct Quaternion {
+	float x;
+	float y;
+	float z;
+	float w;
 };
 
 struct Spherical {
@@ -122,6 +130,18 @@ Vector3 ToCartesian(const Spherical& s);
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 Vector3 Normalize(const Vector3& v);
+
+Quaternion MultiplyQuaternion(const Quaternion& lhs, const Quaternion& rhs);
+
+Quaternion IdentityQuaternion();
+
+Quaternion Conjugate(const Quaternion& quaternion);
+
+float Norm(const Quaternion& quaternion);
+
+Quaternion Normalize(const Quaternion& quaternion);
+
+Quaternion Inverse(const Quaternion& quaternion);
 
 Spherical ToSpherical(const Vector3& p);
 
