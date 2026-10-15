@@ -40,6 +40,73 @@ Vector3 Normalize(const Vector3& v) {
 	return Multiply(v, 1.0f / length);
 }
 
+Quaternion MultiplyQuaternion(const Quaternion& lhs, const Quaternion& rhs) { 
+	Quaternion result; 
+	result.w = (lhs.w * rhs.w) - (lhs.x * rhs.x) - (lhs.y * rhs.y) - (lhs.z * rhs.z);
+	result.x = (lhs.y * rhs.z) - (lhs.z * rhs.y) + (rhs.w * lhs.x) + (lhs.w * rhs.x);
+	result.y = (lhs.z * rhs.x) - (lhs.x * rhs.z) + (rhs.w * lhs.y) + (lhs.w * rhs.y);
+	result.z = (lhs.x * rhs.y) - (lhs.y * rhs.x) + (rhs.w * lhs.z) + (lhs.w * rhs.z);
+	return result;
+}
+
+Quaternion IdentityQuaternion() { 
+	Quaternion result;
+	result.w = 1.0f;
+	result.x = 0.0f;
+	result.y = 0.0f;
+	result.z = 0.0f;
+	return result;
+}
+
+Quaternion Conjugate(const Quaternion& q) { 
+	Quaternion result;	//q*
+	result.w = q.w;
+	result.x = -1 * q.x;
+	result.y = -1 * q.y;
+	result.z = -1 * q.z;
+	return result;
+}
+
+float Norm(const Quaternion& q) { 
+	float absValue = sqrtf(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
+
+	return absValue;
+}
+
+Quaternion Normalize(const Quaternion& q) { 
+	float norm = Norm(q);
+	if (norm < 0.001f) {
+		return {1.0f, 0.0f, 0.0f, 0.0f};
+	}
+
+	float inverse = 1.0f / norm;
+
+	Quaternion result = q;
+	result.w *= inverse;
+	result.x *= inverse;
+	result.y *= inverse;
+	result.z *= inverse;
+	return result;
+}
+
+Quaternion Inverse(const Quaternion& q) { 
+	Quaternion result;
+	float normSq = (q.w * q.w) + (q.x * q.x) + (q.y * q.y) + (q.z * q.z);
+	if (normSq < 0.001f) {
+		return result = {1.0f, 0.0f, 0.0f, 0.0f};
+	}
+
+	float inverseNormSq = 1.0f / normSq;
+
+	Quaternion conj = Conjugate(q);
+
+	result.w = conj.w * inverseNormSq;
+	result.x = conj.x * inverseNormSq;
+	result.y = conj.y * inverseNormSq;
+	result.z = conj.z * inverseNormSq;
+	return result;
+}
+
 Spherical ToSpherical(const Vector3& p) { 
 	float r = std::sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
 	if (r == 0.0f) {

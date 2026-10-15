@@ -15,17 +15,24 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	char preKeys[256] = {0};
 
 	//---------------------------------------
-	
-	int mousePosX = 0;
-	int mousePosY = 0;
 
-	Vector2 circleAPos = {(float)mousePosX, (float)mousePosY};
-	float radiusA = 12.0f;
+	Quaternion q1 = {2.0f, 3.0f, 4.0f, 1.0f};
+	Quaternion q2 = {1.0f, 3.0f, 5.0f, 2.0f};
 
-	Vector2 circleBPos = {640, 360};
-	float radiusB = 20.0f;
 
-	float speed = 6.0f;
+	Quaternion identity = IdentityQuaternion();
+
+	Quaternion conj = Conjugate(q1);
+
+	Quaternion inv = Inverse(q1);
+
+	Quaternion normal = Normalize(q1);
+
+	Quaternion mul1 = MultiplyQuaternion(q1, q2);
+
+	Quaternion mul2 = MultiplyQuaternion(q2, q1);
+
+	float norm = Norm(q1);
 
 	//---------------------------------------
 
@@ -45,29 +52,20 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//---------------------------------------
 		
 
-		Novice::GetMousePosition(&mousePosX, &mousePosY);
-
-		circleAPos = {(float)mousePosX, (float)mousePosY};
-
-		float distance = Vector2Length(circleAPos, circleBPos);
-
-		circleBPos.x += (speed * deltaTime) * ((float)circleAPos.x - (float)circleBPos.x);
-		circleBPos.y += (speed * deltaTime) * ((float)circleAPos.y - (float)circleBPos.y); 
-
 		//---------------------------------------
 
 
 	#ifdef USE_IMGUI
 		
-		ImGui::Begin("Interpolation Controller");
-		ImGui::Text("Target: Mouse Position (Red Circle)");
-		ImGui::SliderFloat("Speed", &speed, 0.0f, 10.0f);
-
-		ImGui::Text("Mouse Pos: (%03f, %03f)", &mousePosX, &mousePosY);
-		ImGui::Text("Circle Pos: (%03f, %03f)", &circleBPos.x);
-		ImGui::Text("Distance to target: %03f px", &distance);
-
-		ImGui::End();
+		//ImGui::Begin("Interpolation Controller");
+		//ImGui::Text("Target: Mouse Position (Red Circle)");
+		//ImGui::SliderFloat("Speed", &speed, 0.0f, 10.0f);
+		//
+		//ImGui::Text("Mouse Pos: (%03f, %03f)", &mousePosX, &mousePosY);
+		//ImGui::Text("Circle Pos: (%03f, %03f)", &circleBPos.x);
+		//ImGui::Text("Distance to target: %03f px", &distance);
+		//
+		//ImGui::End();
 
 	#endif
 
@@ -79,10 +77,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		/// ↓描画処理ここから
 		///
 
-		Novice::DrawLine(static_cast<int>(circleAPos.x), static_cast<int>(circleAPos.y), static_cast<int>(circleBPos.x), static_cast<int>(circleBPos.y), WHITE);
-
-		Novice::DrawEllipse(static_cast<int>(circleAPos.x), static_cast<int>(circleAPos.y), (int)radiusA, (int)radiusA, (float)0.0f, RED, kFillModeSolid);
-		Novice::DrawEllipse(static_cast<int>(circleBPos.x), static_cast<int>(circleBPos.y), (int)radiusB, (int)radiusB, (float)0.0f, GREEN, kFillModeSolid);
+		Novice::ScreenPrintf(0, 0,		" %.02f		%.02f	  %.02f		  %.02f	        :Identity", identity.x, identity.y, identity.z, identity.w);
+		Novice::ScreenPrintf(0, 20,		"%.02f		%.02f		%.02f	  %.02f	        :Conjugate", conj.x, conj.y, conj.z, conj.w);
+		Novice::ScreenPrintf(0, 40,		"%.02f		%.02f		%.02f	  %.02f	        :Inverse", inv.x, inv.y, inv.z, inv.w);
+		Novice::ScreenPrintf(0, 60,		" %.02f		%.02f	  %.02f		  %.02f	        :Normalize", normal.x, normal.y, normal.z, normal.w);
+		Novice::ScreenPrintf(0, 80,		" %.02f		%.02f	  %.02f		 %.02f	      :Multiply(q1, q2)", mul1.x, mul1.y, mul1.z, mul1.w);
+		Novice::ScreenPrintf(0, 100,	" %.02f		%.02f		%.02f	  %.02f	      :Multiply(q2, q1)", mul2.x, mul2.y, mul2.z, mul2.w);
+		Novice::ScreenPrintf(0, 120,	" %.02f                              :Norm", norm);
 
 		///
 		/// ↑描画処理ここまで
