@@ -40,7 +40,7 @@ Vector3 Normalize(const Vector3& v) {
 	return Multiply(v, 1.0f / length);
 }
 
-Quaternion MultiplyQuaternion(const Quaternion& lhs, const Quaternion& rhs) { 
+Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs) { 
 	Quaternion result; 
 	result.w = (lhs.w * rhs.w) - (lhs.x * rhs.x) - (lhs.y * rhs.y) - (lhs.z * rhs.z);
 	result.x = (lhs.y * rhs.z) - (lhs.z * rhs.y) + (rhs.w * lhs.x) + (lhs.w * rhs.x);
@@ -76,7 +76,7 @@ float Norm(const Quaternion& q) {
 Quaternion Normalize(const Quaternion& q) { 
 	float norm = Norm(q);
 	if (norm < 0.001f) {
-		return {1.0f, 0.0f, 0.0f, 0.0f};
+		return {0.0f, 0.0f, 0.0f, 1.0f};	// { x, y, z, w }
 	}
 
 	float inverse = 1.0f / norm;
@@ -93,7 +93,7 @@ Quaternion Inverse(const Quaternion& q) {
 	Quaternion result;
 	float normSq = (q.w * q.w) + (q.x * q.x) + (q.y * q.y) + (q.z * q.z);
 	if (normSq < 0.001f) {
-		return result = {1.0f, 0.0f, 0.0f, 0.0f};
+		return result = {0.0f, 0.0f, 0.0f, 1.0f};	// { x, y, z, w }
 	}
 
 	float inverseNormSq = 1.0f / normSq;

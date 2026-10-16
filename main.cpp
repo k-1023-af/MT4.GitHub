@@ -28,9 +28,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	Quaternion normal = Normalize(q1);
 
-	Quaternion mul1 = MultiplyQuaternion(q1, q2);
+	Quaternion mul1 = Multiply(q1, q2);
 
-	Quaternion mul2 = MultiplyQuaternion(q2, q1);
+	Quaternion mul2 = Multiply(q2, q1);
 
 	float norm = Norm(q1);
 
