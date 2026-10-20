@@ -4,12 +4,20 @@
 #include <algorithm>
 //#include <math.h>
 
+#include "Novice.h"
+
 class Function {
 };
 
 const float deltaTime = 1.0f / 60.0f;
 
 const float halfPi = std::numbers::pi_v<float> / 2.0f;
+
+static const int kWindowWidth = 1280;
+static const int kWindowHeight = 720;
+
+static const int kRowHeight = 20;
+static const int kColumnWidth = 60;
 
 struct Vector2 {
 	float x;
@@ -131,6 +139,10 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 Vector3 Normalize(const Vector3& v);
 
+Vector3 Transform(const Vector3& v, const Matrix4x4& m);
+
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
+
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
 
 Quaternion IdentityQuaternion();
@@ -143,5 +155,16 @@ Quaternion Normalize(const Quaternion& quaternion);
 
 Quaternion Inverse(const Quaternion& quaternion);
 
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
+
+Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+
 Spherical ToSpherical(const Vector3& p);
 
+//====================================================
+
+void MatrixScreenPrintf(int x, int y, Matrix4x4 matrix);
+
+void VectorScreenPrintf(int x, int y, Vector3 vector);
+
+void QuaternionScreenPrintf(int x, int y, Quaternion quaternion);
