@@ -134,27 +134,17 @@ Vector3 AddVector3(const Vector3& v1, const Vector3& v2);
 Vector3 Multiply(const Vector3& v, float scalar);
 
 Vector3 ToCartesian(const Spherical& s);
-
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
-
 Vector3 Normalize(const Vector3& v);
-
 Vector3 Transform(const Vector3& v, const Matrix4x4& m);
-
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
 
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
-
 Quaternion IdentityQuaternion();
-
 Quaternion Conjugate(const Quaternion& quaternion);
-
 float Norm(const Quaternion& quaternion);
-
 Quaternion Normalize(const Quaternion& quaternion);
-
 Quaternion Inverse(const Quaternion& quaternion);
-
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
 
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
@@ -164,7 +154,5 @@ Spherical ToSpherical(const Vector3& p);
 //====================================================
 
 void MatrixScreenPrintf(int x, int y, Matrix4x4 matrix);
-
 void VectorScreenPrintf(int x, int y, Vector3 vector);
-
 void QuaternionScreenPrintf(int x, int y, Quaternion quaternion);
