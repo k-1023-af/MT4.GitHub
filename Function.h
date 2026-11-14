@@ -128,7 +128,8 @@ struct ConicalPendulum {
 
 float Dot(const Vector3& v1, const Vector3& v2);
 
-float Vector2Length(Vector2 v1, Vector2 v2);
+float Length(Vector2 v1, Vector2 v2);
+float Length(Vector3 v1, Vector3 v2);
 
 Vector3 AddVector3(const Vector3& v1, const Vector3& v2);
 Vector3 Multiply(const Vector3& v, float scalar);
@@ -146,6 +147,8 @@ float Norm(const Quaternion& quaternion);
 Quaternion Normalize(const Quaternion& quaternion);
 Quaternion Inverse(const Quaternion& quaternion);
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
+Quaternion DirectionToDirection(const Vector3& from, const Vector3& to);
+Quaternion NormalizeRotation(const Vector3& from, const Vector3& to);
 
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 

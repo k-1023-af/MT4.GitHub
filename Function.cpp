@@ -6,9 +6,12 @@ float Dot(const Vector3& v1, const Vector3& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; 
 }
 
-float Vector2Length(Vector2 v1, Vector2 v2) { 
+float Length(Vector2 v1, Vector2 v2) { 
 	return sqrtf(powf(((float)v2.x - (float)v1.x), 2) + powf(((float)v2.y - (float)v1.y), 2));
 }
+
+float Length(Vector3 v1, Vector3 v2) { 
+	return sqrtf(powf(((float)v2.x - (float)v1.x), 2) + powf(((float)v2.y - (float)v1.y), 2) + powf(((float)v2.z - (float)v1.z),2)); }
 
 Vector3 AddVector3(const Vector3& v1, const Vector3& v2) { 
 	return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
@@ -145,6 +148,49 @@ Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
 	result.z = n.z * s;
 	result.w = std::cos(halfAngle);
 	return result;
+}
+
+Quaternion DirectionToDirection(const Vector3& from, const Vector3& to) { 
+	const float tolerance = 1.e-6f;
+	float dot = Dot(from, to);
+	
+	if (dot > 1.0f - tolerance) {
+		return {0.0f, 0.0f, 0.0f, 1.0f};
+	}
+
+	if (dot <= -1.0f + tolerance) {
+		Vector3 axis = {1.0f, 0.0f, 0.0f};
+		if (std::abs(from.x) > 1.0 - tolerance) {
+			axis = {0.0f, 1.0f, 0.0f};
+		}
+		Vector3 ortho = {
+			axis.y * from.z - axis.z * from.y, 
+			axis.z * from.x - axis.x * from.z, 
+			axis.x * from.y - axis.y * from.x
+		};
+		float len = Length(ortho, {0.0f, 0.0f, 0.0f});
+		return {ortho.x / len, ortho.y / len, ortho.z / len, 0.0f};
+		//return Inverse({ortho.x, ortho.y, ortho.z, 0.0f});
+	}
+	Vector3 axis = {	//Cross(from, to);
+		from.y * to.z - from.z * to.y,
+		from.z * to.x - from.x * to.z,
+		from.x * to.y - from.y * to.x
+	};
+	
+	Quaternion q = {axis.x, axis.y, axis.z, 1.0f + dot};
+
+	return Normalize(q);
+	//float invLen = 1.0f / std::sqrtf(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
+	//return {q.x * invLen, q.y * invLen, q.z * invLen, q.w * invLen};
+}
+
+Quaternion NormalizeRotation(const Vector3& from, const Vector3& to) { 
+	float dot = Dot(from, to); 
+	Vector3 cross = Cross(from, to);
+	Quaternion rotation = {cross.x, cross.y, cross.z, 1.0f + dot};
+
+	return Normalize(rotation);
 }
 
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) { 
