@@ -16,17 +16,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	//--------------------------------------
 
-	Vector3 from0 = Normalize(Vector3{1.0f, 0.7f, 0.5f});
-	Vector3 to0 = Multiply(from0, -1);
-	Vector3 from1 = Normalize(Vector3{-0.6f, 0.9f, 0.2f});
-	Vector3 to1 = Normalize(Vector3{0.4f, 0.7f, -0.5f});
+	Quaternion rotation0 = MakeRotateAxisAngleQuaternion({0.71f, 0.71f, 0.0f}, 0.3f);
+	Quaternion rotation1 = MakeRotateAxisAngleQuaternion({0.71f, 0.0f, 0.71f}, 3.141592f);
 
-	Matrix4x4 rotateMatrix0 = MakeRotateMatrix(DirectionToDirection(Normalize(Vector3{1.0f, 0.0f, 0.0f}), Normalize(Vector3{-1.0f, 0.0f, 0.0f}))); 
-	
-	Matrix4x4 rotateMatrix1 = MakeRotateMatrix(DirectionToDirection(from0, to0));
-
-	Matrix4x4 rotateMatrix2 = MakeRotateMatrix(DirectionToDirection(from1, to1));
-
+	Quaternion interpolate0 = Slerp(rotation0, rotation1, 0.0f);
+	Quaternion interpolate1 = Slerp(rotation0, rotation1, 0.3f);
+	Quaternion interpolate2 = Slerp(rotation0, rotation1, 0.5f);
+	Quaternion interpolate3 = Slerp(rotation0, rotation1, 0.7f);
+	Quaternion interpolate4 = Slerp(rotation0, rotation1, 1.0f);
 	
 	//---------------------------------------
 
@@ -71,13 +68,17 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		/// ↓描画処理ここから
 		///
 
-		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 0, ": rotateMatrix0");
-		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 5, ": rotateMatrix1");
-		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 10, ": rotateMatrix2");
-
-		MatrixScreenPrintf(0, 0, rotateMatrix0);
-		MatrixScreenPrintf(0, kRowHeight * 5, rotateMatrix1);
-		MatrixScreenPrintf(0, kRowHeight * 10, rotateMatrix2);
+		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 0, ": interpolate0, Slerp(q0, q1, 0.0f)");
+		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 1, ": interpolate1, Slerp(q0, q1, 0.3f)");
+		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 2, ": interpolate2, Slerp(q0, q1, 0.5f)");
+		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 3, ": interpolate3, Slerp(q0, q1, 0.7f)");
+		Novice::ScreenPrintf(0 + kColumnWidth * 4, kRowHeight * 4, ": interpolate4, Slerp(q0, q1, 1.0f)");
+		
+		QuaternionScreenPrintf(0, kRowHeight * 0, interpolate0);
+		QuaternionScreenPrintf(0, kRowHeight * 1, interpolate1);
+		QuaternionScreenPrintf(0, kRowHeight * 2, interpolate2);
+		QuaternionScreenPrintf(0, kRowHeight * 3, interpolate3);
+		QuaternionScreenPrintf(0, kRowHeight * 4, interpolate4);
 
 		///
 		/// ↑描画処理ここまで
