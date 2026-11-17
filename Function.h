@@ -127,35 +127,32 @@ struct ConicalPendulum {
 };
 
 float Dot(const Vector3& v1, const Vector3& v2);
+float Dot(const Quaternion& q0, const Quaternion& q1);
 
-float Vector2Length(Vector2 v1, Vector2 v2);
+float Length(Vector2 v1, Vector2 v2);
+float Length(Vector3 v1, Vector3 v2);
 
 Vector3 AddVector3(const Vector3& v1, const Vector3& v2);
 Vector3 Multiply(const Vector3& v, float scalar);
 
 Vector3 ToCartesian(const Spherical& s);
-
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
-
 Vector3 Normalize(const Vector3& v);
-
 Vector3 Transform(const Vector3& v, const Matrix4x4& m);
-
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
 
+Quaternion Add(const Quaternion& q0, const Quaternion& q1);
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
-
+Quaternion Multiply(const Quaternion& q, float scalar);
 Quaternion IdentityQuaternion();
-
 Quaternion Conjugate(const Quaternion& quaternion);
-
 float Norm(const Quaternion& quaternion);
-
 Quaternion Normalize(const Quaternion& quaternion);
-
 Quaternion Inverse(const Quaternion& quaternion);
-
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
+Quaternion DirectionToDirection(const Vector3& from, const Vector3& to);
+Quaternion NormalizeRotation(const Vector3& from, const Vector3& to);
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
 
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 
@@ -164,7 +161,5 @@ Spherical ToSpherical(const Vector3& p);
 //====================================================
 
 void MatrixScreenPrintf(int x, int y, Matrix4x4 matrix);
-
 void VectorScreenPrintf(int x, int y, Vector3 vector);
-
 void QuaternionScreenPrintf(int x, int y, Quaternion quaternion);
