@@ -95,9 +95,9 @@ Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs) {
 Quaternion Multiply(const Quaternion& q, float scalar) { 
 	Quaternion result;
 	result.w = q.w * scalar;
-	result.x = q.y * scalar;
-	result.y = q.z * scalar;
-	result.z = q.x * scalar;
+	result.x = q.x * scalar;
+	result.y = q.y * scalar;
+	result.z = q.z * scalar;
 	return result;
 }
 
@@ -216,19 +216,27 @@ Quaternion NormalizeRotation(const Vector3& from, const Vector3& to) {
 }
 
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t) { 
+	Quaternion minusQ0;
+	float scale0;
+	float scale1;
 	float dot = Dot(q0, q1);
 	if (dot < 0) {
-		Quaternion minusQ0 = Multiply(q0, -1);
+		minusQ0 = Multiply(q0, -1);
 		dot = -dot;
-	}
+	} 
 	float theta = std::acos(dot);
 
-	float scale0 = (sinf((1 - t) * theta)) / sinf(theta);
-	float scale1 = (sinf(t * theta)) / sin(theta);
-
 	if (dot == 0) {
-		scale0 = (1 - t);
-		scale1 = t;
+			scale0 = (1 - t);
+			scale1 = t;
+	}
+	else {
+	    scale0 = (sinf((1 - t) * theta)) / sinf(theta);
+	    scale1 = (sinf(t * theta)) / sin(theta);
+    }
+
+	if (dot < 0) {
+		return Add(Multiply(minusQ0, scale0), Multiply(q1, scale1));
 	}
 
 	return Add(Multiply(q0, scale0), Multiply(q1, scale1));
