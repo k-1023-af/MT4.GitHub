@@ -216,30 +216,27 @@ Quaternion NormalizeRotation(const Vector3& from, const Vector3& to) {
 }
 
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t) { 
-	Quaternion minusQ0;
-	float scale0;
-	float scale1;
+	Quaternion minusQ1 = q1;
 	float dot = Dot(q0, q1);
 	if (dot < 0) {
-		minusQ0 = Multiply(q0, -1);
+		minusQ1 = Multiply(q1, -1);
 		dot = -dot;
 	} 
+
+	if (dot > 1.0f) dot = 1.0f;
+	if (dot < -1.0f) dot = -1.0f;
+
 	float theta = std::acos(dot);
-
-	if (dot == 0) {
-			scale0 = (1 - t);
-			scale1 = t;
+	const float dot_threshold = 0.99995f;
+	if (dot > dot_threshold) {
+		Quaternion result = Add(Multiply(q0, 1.0f - t), Multiply(minusQ1, t));
+		return Normalize(result);
 	}
-	else {
-	    scale0 = (sinf((1 - t) * theta)) / sinf(theta);
-	    scale1 = (sinf(t * theta)) / sin(theta);
-    }
-
-	if (dot < 0) {
-		return Add(Multiply(minusQ0, scale0), Multiply(q1, scale1));
-	}
-
-	return Add(Multiply(q0, scale0), Multiply(q1, scale1));
+	
+	float scale0 = (sinf((1 - t) * theta)) / sinf(theta);
+	float scale1 = (sinf(t * theta)) / sinf(theta);
+    
+	return Add(Multiply(q0, scale0), Multiply(minusQ1, scale1));
 }
 
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion) { 
