@@ -69,7 +69,7 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion) {
 
 	Quaternion rotateVector = Multiply(quaternion, Multiply(r, invQ));
 
-	Quaternion invRotate = Inverse(rotateVector);
+	//Quaternion invRotate = Inverse(rotateVector);
 
 	return {rotateVector.x, rotateVector.y, rotateVector.z};
 }
@@ -219,12 +219,13 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t) {
 	Quaternion minusQ1 = q1;
 	float dot = Dot(q0, q1);
 	if (dot < 0) {
-		minusQ1 = Multiply(q1, -1);
+		minusQ1 = Multiply(q1, -1.0f);
 		dot = -dot;
 	} 
 
-	if (dot > 1.0f) dot = 1.0f;
-	if (dot < -1.0f) dot = -1.0f;
+	//if (dot > 1.0f) dot = 1.0f;
+	//if (dot < -1.0f) dot = -1.0f;
+	dot = std::clamp(dot, -1.0f, 1.0f);
 
 	float theta = std::acos(dot);
 	const float dot_threshold = 0.99995f;
